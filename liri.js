@@ -3,6 +3,9 @@ var keys = require("./keys.js");
 // var spotify = new Spotify(keys.spotify);
 var axios = require("axios");
 var moment = require("moment");
+var Spotify = require("node-spotify-api");
+
+var spotify = new Spotify(keys.spotify);
 
 var command = process.argv[2];
 var input = process.argv[3];
@@ -11,7 +14,9 @@ switch (command) {
     case "concert-this":
         concertCheck(input);
         break;
-
+    case "spotify-this-song":
+        spotifyCheck(input);
+        break;
     default:
         break;
 }
@@ -19,12 +24,13 @@ switch (command) {
 function concertCheck(artist){
     axios
         .get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp")
+        
         .then(function(response) {
             // console.log(response.data);
             if (response.data[0] != null) {
                 console.log(artist + " is playing at:")
                 for (var i = 0; i < response.data.length; i++) {
-                    console.log("*" + response.data[i].venue.name + "*");
+                    console.log("* " + response.data[i].venue.name + " *");
                     if (response.data[i].venue.region) {
                         console.log("     " + response.data[i].venue.city + ", " + response.data[i].venue.region + ", " + response.data[i].venue.country);
                     } else {
@@ -37,6 +43,7 @@ function concertCheck(artist){
                 console.log("That artist or band is not on tour at this time.");
             };
         })
+
         .catch(function(error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
@@ -54,5 +61,14 @@ function concertCheck(artist){
             }
             console.log(error.config);
         })
+}
 
+function spotifyCheck(song) {
+    spotify.search({ type: 'track', query: song }, function(err, data) {
+        if (err) {
+          return console.log('Error occurred: ' + err);
+        }
+       
+      console.log(data); 
+      });
 }
