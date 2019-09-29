@@ -21,17 +21,21 @@ function concertCheck(artist){
         .get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp")
         .then(function(response) {
             // console.log(response.data);
-            console.log(artist + " is playing at:")
-            for (var i = 0; i < response.data.length; i++) {
-                console.log("*" + response.data[i].venue.name + "*");
-                if (response.data[i].venue.region) {
-                    console.log("     " + response.data[i].venue.city + ", " + response.data[i].venue.region + ", " + response.data[i].venue.country);
-                } else {
-                    console.log("     " + response.data[i].venue.city + ", " + response.data[i].venue.country);
+            if (response.data[0] != null) {
+                console.log(artist + " is playing at:")
+                for (var i = 0; i < response.data.length; i++) {
+                    console.log("*" + response.data[i].venue.name + "*");
+                    if (response.data[i].venue.region) {
+                        console.log("     " + response.data[i].venue.city + ", " + response.data[i].venue.region + ", " + response.data[i].venue.country);
+                    } else {
+                        console.log("     " + response.data[i].venue.city + ", " + response.data[i].venue.country);
+                    };
+                    var concertDate = moment(response.data[i].datetime).format("M/D/YYYY");
+                    console.log("     " + concertDate);
                 };
-                var concertDate = moment(response.data[i].datetime).format("M/D/YYYY");
-                console.log("     " + concertDate);
-            }
+            } else {
+                console.log("That artist or band is not on tour at this time.");
+            };
         })
         .catch(function(error) {
             if (error.response) {
