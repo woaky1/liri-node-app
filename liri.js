@@ -2,6 +2,7 @@ require("dotenv").config();
 var keys = require("./keys.js");
 // var spotify = new Spotify(keys.spotify);
 var axios = require("axios");
+var moment = require("moment");
 
 var command = process.argv[2];
 var input = process.argv[3];
@@ -26,8 +27,10 @@ function concertCheck(artist){
                 if (response.data[i].venue.region) {
                     console.log("     " + response.data[i].venue.city + ", " + response.data[i].venue.region + ", " + response.data[i].venue.country);
                 } else {
-                    console.log("     " + response.data[i].venue.city + ", " + response.data[i].venue.country)
-                }
+                    console.log("     " + response.data[i].venue.city + ", " + response.data[i].venue.country);
+                };
+                var concertDate = moment(response.data[i].datetime).format("M/D/YYYY");
+                console.log("     " + concertDate);
             }
         })
         .catch(function(error) {
