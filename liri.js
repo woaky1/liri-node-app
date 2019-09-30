@@ -17,6 +17,9 @@ switch (command) {
     case "spotify-this-song":
         spotifyCheck(input);
         break;
+    case "movie-this":
+        movieCheck(input);
+        break;
     default:
         break;
 }
@@ -83,4 +86,37 @@ function spotifyCheck(song) {
         console.log("Album Title: " + data.tracks.items[j].album.name);
         }
     })
+}
+
+function movieCheck(title) {
+    axios
+        .get("http://www.omdbapi.com/?apikey=trilogy&t=" + title)
+        .then(function (movieInfo) {
+            // console.log(movieInfo.data);
+            console.log("Title: " + movieInfo.data.Title)
+            console.log("Year Released: " + movieInfo.data.Year);
+            console.log("IMDB Rating: " + movieInfo.data.imdbRating);
+            console.log("Rotten Tomatoes Rating: " + movieInfo.data.Ratings[1].Value);
+            console.log("Producing Country or Countries: " + movieInfo.data.Country);
+            console.log("Language: " + movieInfo.data.Language);
+            console.log("Plot: " + movieInfo.data.Plot);
+            console.log("Actors: " + movieInfo.data.Actors);
+        })
+        .catch(function(error) {
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+            } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an object that comes back with details pertaining to the error that occurred.
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log("Error", error.message);
+            }
+            console.log(error.config);
+        })
 }
