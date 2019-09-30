@@ -69,11 +69,13 @@ function spotifyCheck(song) {
           return console.log('Error occurred: ' + err);
         }
        
-    //   console.log(data.tracks.items[0].album);
+      console.log(data.tracks.items);
       for (var j = 0; j < data.tracks.items.length; j++) {
-        for (var artistsIndex = 0; artistsIndex < data.tracks.items[j].album.artists.length; artistsIndex++) {
-                console.log("Artist(s): " + data.tracks.items[j].album.artists[artistsIndex].name);
+        for (var artistsIndex = 0; artistsIndex < data.tracks.items[j].artists.length; artistsIndex++) {
+                console.log("Artist(s): " + data.tracks.items[j].artists[artistsIndex].name);
             };
+        console.log("Track Name: " + data.tracks.items[j].name);
+        console.log("Album Title: " + data.tracks.items[j].album.name);
         }
     })
 }
