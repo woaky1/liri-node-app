@@ -9,8 +9,15 @@ var fs = require("fs");
 var spotify = new Spotify(keys.spotify);
 
 var command = process.argv[2];
-var input = process.argv.slice(3).join(" ");
-// console.log(input);
+// var input = process.argv[3];
+var input;
+if(process.argv.slice(3).join(" ")) {
+    input = process.argv.slice(3).join(" ");
+} else {
+    input = null;
+}
+
+console.log("This is the input: " + input);
 theSwitch();
 function theSwitch() {
     switch (command) {
