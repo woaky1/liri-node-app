@@ -74,6 +74,9 @@ function concertCheck(artist){
 }
 
 function spotifyCheck(song) {
+    if (song == null) {
+        song = "The Sign Ace of Base"
+    }
     spotify.search({ type: 'track', query: song }, function(err, data) {
         if (err) {
           return console.log('Error occurred: ' + err);
