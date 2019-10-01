@@ -9,7 +9,8 @@ var fs = require("fs");
 var spotify = new Spotify(keys.spotify);
 
 var command = process.argv[2];
-var input = process.argv[3];
+var input = process.argv.slice(3).join(" ");
+// console.log(input);
 theSwitch();
 function theSwitch() {
     switch (command) {
