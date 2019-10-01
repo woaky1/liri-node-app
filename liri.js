@@ -14,6 +14,7 @@ if(process.argv.slice(3).join(" ")) {
 } else {
     input = null;
 }
+var searchOutput = [];
 
 theSwitch();
 function theSwitch() {
@@ -41,21 +42,33 @@ function concertCheck(artist){
         .get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp")
         
         .then(function(response) {
+            searchOutput = [];
             if (response.data[0] != null) {
-                console.log(artist + " is playing at:")
+                var header = artist + " is playing at:";
+                console.log(header);
+                searchOutput.push(header);
                 for (var i = 0; i < response.data.length; i++) {
-                    console.log(response.data[i].venue.name);
+                    var venueName = response.data[i].venue.name
+                    console.log(venueName);
+                    searchOutput.push(venueName);
                     if (response.data[i].venue.region) {
-                        console.log("     " + response.data[i].venue.city + ", " + response.data[i].venue.region + ", " + response.data[i].venue.country);
+                        var location = "     " + response.data[i].venue.city + ", " + response.data[i].venue.region + ", " + response.data[i].venue.country
+                        console.log(location);
+                        searchOutput.push(location);
                     } else {
-                        console.log("     " + response.data[i].venue.city + ", " + response.data[i].venue.country);
+                        var location = "     " + response.data[i].venue.city + ", " + response.data[i].venue.country
+                        console.log(location);
+                        searchOutput.push(location);
                     };
-                    var concertDate = moment(response.data[i].datetime).format("M/D/YYYY");
-                    console.log("     " + concertDate);
+                    var concertDate = "     " + moment(response.data[i].datetime).format("M/D/YYYY");
+                    console.log(concertDate);
+                    searchOutput.push(concertDate);
                 };
             } else {
                 console.log("That artist or band is not on tour at this time.");
             };
+            console.log(searchOutput);
+            fileMaker();
         })
 
         .catch(function(error) {
@@ -143,4 +156,17 @@ function weirdStuff() {
         input = splitText[1];
         theSwitch();
     })
+}
+
+function fileMaker() {
+    for (var k = 0; k < searchOutput.length; k++)
+    fs.appendFileSync("results.txt", searchOutput[k] + "\n", function(err) {
+
+        // If an error was experienced we will log it.
+        if (err) {
+          console.log(err);
+        }
+      
+      });
+      
 }
