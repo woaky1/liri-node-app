@@ -4,24 +4,31 @@ var keys = require("./keys.js");
 var axios = require("axios");
 var moment = require("moment");
 var Spotify = require("node-spotify-api");
+var fs = require("fs");
 
 var spotify = new Spotify(keys.spotify);
 
 var command = process.argv[2];
 var input = process.argv[3];
-
-switch (command) {
-    case "concert-this":
-        concertCheck(input);
-        break;
-    case "spotify-this-song":
-        spotifyCheck(input);
-        break;
-    case "movie-this":
-        movieCheck(input);
-        break;
-    default:
-        break;
+theSwitch();
+function theSwitch() {
+    switch (command) {
+        case "do-what-it-says":
+            weirdStuff(input);
+            break;
+        case "concert-this":
+            concertCheck(input);
+            break;
+        case "spotify-this-song":
+            spotifyCheck(input);
+            break;
+        case "movie-this":
+            movieCheck(input);
+            break;
+        default:
+            console.log("Invalid command. Try again.")
+            break;
+    }
 }
 
 function concertCheck(artist){
@@ -119,4 +126,18 @@ function movieCheck(title) {
             }
             console.log(error.config);
         })
+}
+
+function weirdStuff() {
+    fs.readFile("random.txt","utf8", function (err, data) {
+        if (err) {
+            return console.log(error);
+          }
+        console.log(data);
+        var splitText = data.split(",")
+        console.log(splitText);
+        command = splitText[0];
+        input = splitText[1];
+        theSwitch();
+    })
 }
