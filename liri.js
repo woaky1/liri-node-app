@@ -54,7 +54,7 @@ function concertCheck(artist){
             searchOutput = [];
             if (response.data[0] != null) {
                 var header = artist + " is playing at:";
-                // For each piece of info, we console log it, then push it to the searchOutput array so we can append it to log.txt later.
+                // For each piece of info, we console log it, then push it to the searchOutput array so we can append it to log.txt later. You'll see this repeated for the other functions.
                 console.log(header);
                 searchOutput.push(header);
                 for (var i = 0; i < response.data.length; i++) {
@@ -77,6 +77,7 @@ function concertCheck(artist){
             } else {
                 console.log("That artist or band is not on tour at this time.");
             };
+            // This is the function we use to write to the log.txt file.
             fileMaker();
         })
         // I grabbed the following error catching code from one of our class activities.
@@ -99,10 +100,13 @@ function concertCheck(artist){
         })
 }
 
+// This function handles the user command 'spotify-this-song.'
 function spotifyCheck(song) {
+    // If the user doesn't input a song of their own to search, we default to searching for 'The Sign' by Ace of Base.
     if (song == null) {
         song = "The Sign Ace of Base";
     }
+    // This is where we use the node-spotify-app package to search for infomation about the song the user provided.
     spotify.search({ type: 'track', query: song }, function(err, data) {
         if (err) {
           return console.log('Error occurred: ' + err);
@@ -110,6 +114,7 @@ function spotifyCheck(song) {
         searchOutput = [];
         for (var j = 0; j < data.tracks.items.length; j++) {
             for (var artistsIndex = 0; artistsIndex < data.tracks.items[j].artists.length; artistsIndex++) {
+                // Again, we save the info as a variable, then console.log the variable and push the variable to an array. We'll use that array to get the info and append it to log.txt.
                 var header = "Artist(s): " + data.tracks.items[j].artists[artistsIndex].name;   
                 console.log(header);
                 searchOutput.push(header);
@@ -134,16 +139,19 @@ function spotifyCheck(song) {
     })
 }
 
+// This function handles the user commande 'movie-this'.
 function movieCheck(title) {
     axios
         .get("http://www.omdbapi.com/?apikey=trilogy&t=" + title)
         .then(function (movieInfo) {
             searchOutput = [];
+            // Again, save a variable, console.log it and then push it to an array which will be user to write to log.txt later.
             var movieData = `Title: ${movieInfo.data.Title}\n     Year Released: ${movieInfo.data.Year}\n     IMDB Rating: ${movieInfo.data.imdbRating}\n     Rotten Tomatoes Rating: ${movieInfo.data.Ratings[1].Value}\n     Producing Country or Countries: ${movieInfo.data.Country}\n     Language: ${movieInfo.data.Language}\n     Plot: ${movieInfo.data.Plot}\n     Actors: ${movieInfo.data.Actors}`;
             console.log(movieData);
             searchOutput.push(movieData);
             fileMaker();
         })
+        // Again, I grabbed this error catching portion from one of our class activities.
         .catch(function(error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
@@ -163,20 +171,27 @@ function movieCheck(title) {
         })
 }
 
+// This function handles the user command "do-what-it-says".
 function weirdStuff() {
+    // Here we use readFile to grab info from random.txt. It'll provide the command and search item.
     fs.readFile("random.txt","utf8", function (err, data) {
         if (err) {
             return console.log(error);
           }
+        // The info we got from random.txt is one big string. .split takes that text and splits it at the comma, giving us each half stored as items in an array.
         var splitText = data.split(",");
+        // Now we need to call the items in that new array and save them as variables we can feed to theSwitch.
         command = splitText[0];
         input = splitText[1];
         theSwitch();
     })
 }
 
+// This function takes the results from the user's search and appends them to the file log.txt.
 function fileMaker() {
+    // Remember that array we were pushing to in our earlier functions, searchOutput. In this loop, we'll grab the data from it and append it to log.txt.
     for (var k = 0; k < searchOutput.length; k++)
+    // To do the appending we need to use appendFileSync. Since fs is asynchronous, if we just use appendFile, the data will likely appended to log.txt out of order.
     fs.appendFileSync("log.txt", searchOutput[k] + "\n", function(err) {
 
         // If an error was experienced we will log it.
