@@ -49,4 +49,4 @@ This is a special mystery command that will run a search based on the contents o
 - fs: File System. This package comes with node. It's used to write our search results to log.txt.
 
 ## About Me:
-I'm a student at Northwestern's Coding Bootcamp. Liri is a homework assignment at the school. If you poke around GitHub, you're bound to find a bunch of different takes on it. 
+I'm a student at Northwestern's Coding Bootcamp. Liri is a homework assignment at the school. If you poke around GitHub, you're bound to find a bunch of different takes on it. Thanks for stopping by and taking a look at mine!
