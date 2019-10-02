@@ -22,7 +22,7 @@ if(process.argv.slice(3).join(" ")) {
 // This is the variable we will append to log.txt
 var searchOutput = [];
 
-// 
+// theSwitch is just what it's named. It checks which command the user inputted and sends their input to the appropriate function.
 theSwitch();
 function theSwitch() {
     switch (command) {
@@ -44,7 +44,9 @@ function theSwitch() {
     }
 }
 
+//This function handles the user command 'concert-this'
 function concertCheck(artist){
+    // Here we use axios to make an api call to bands in town and do a search for the artist the user provided.
     axios
         .get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp")
         
@@ -52,6 +54,7 @@ function concertCheck(artist){
             searchOutput = [];
             if (response.data[0] != null) {
                 var header = artist + " is playing at:";
+                // For each piece of info, we console log it, then push it to the searchOutput array so we can append it to log.txt later.
                 console.log(header);
                 searchOutput.push(header);
                 for (var i = 0; i < response.data.length; i++) {
@@ -74,10 +77,9 @@ function concertCheck(artist){
             } else {
                 console.log("That artist or band is not on tour at this time.");
             };
-            // console.log(searchOutput);
             fileMaker();
         })
-
+        // I grabbed the following error catching code from one of our class activities.
         .catch(function(error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
