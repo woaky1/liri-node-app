@@ -14,6 +14,7 @@ if(process.argv.slice(3).join(" ")) {
 } else {
     input = null;
 }
+var searchOutput = [];
 
 theSwitch();
 function theSwitch() {
@@ -41,21 +42,33 @@ function concertCheck(artist){
         .get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp")
         
         .then(function(response) {
+            searchOutput = [];
             if (response.data[0] != null) {
-                console.log(artist + " is playing at:")
+                var header = artist + " is playing at:";
+                console.log(header);
+                searchOutput.push(header);
                 for (var i = 0; i < response.data.length; i++) {
-                    console.log(response.data[i].venue.name);
+                    var venueName = response.data[i].venue.name
+                    console.log(venueName);
+                    searchOutput.push(venueName);
                     if (response.data[i].venue.region) {
-                        console.log("     " + response.data[i].venue.city + ", " + response.data[i].venue.region + ", " + response.data[i].venue.country);
+                        var location = "     " + response.data[i].venue.city + ", " + response.data[i].venue.region + ", " + response.data[i].venue.country
+                        console.log(location);
+                        searchOutput.push(location);
                     } else {
-                        console.log("     " + response.data[i].venue.city + ", " + response.data[i].venue.country);
+                        var location = "     " + response.data[i].venue.city + ", " + response.data[i].venue.country
+                        console.log(location);
+                        searchOutput.push(location);
                     };
-                    var concertDate = moment(response.data[i].datetime).format("M/D/YYYY");
-                    console.log("     " + concertDate);
+                    var concertDate = "     " + moment(response.data[i].datetime).format("M/D/YYYY");
+                    console.log(concertDate);
+                    searchOutput.push(concertDate);
                 };
             } else {
                 console.log("That artist or band is not on tour at this time.");
             };
+            // console.log(searchOutput);
+            fileMaker();
         })
 
         .catch(function(error) {
@@ -85,19 +98,30 @@ function spotifyCheck(song) {
         if (err) {
           return console.log('Error occurred: ' + err);
         }
-       
-      for (var j = 0; j < data.tracks.items.length; j++) {
-        for (var artistsIndex = 0; artistsIndex < data.tracks.items[j].artists.length; artistsIndex++) {
-                console.log("Artist(s): " + data.tracks.items[j].artists[artistsIndex].name);
-            };
-        console.log("     Track Name: " + data.tracks.items[j].name);
-        if (data.tracks.items[j].preview_url) {
-            console.log("     Preview: " + data.tracks.items[j].preview_url);
-        } else {
-            console.log("     Preview: unavailable");
+        searchOutput = [];
+        for (var j = 0; j < data.tracks.items.length; j++) {
+            for (var artistsIndex = 0; artistsIndex < data.tracks.items[j].artists.length; artistsIndex++) {
+                var header = "Artist(s): " + data.tracks.items[j].artists[artistsIndex].name;   
+                console.log(header);
+                searchOutput.push(header);
+                };
+            var trackName = "     Track Name: " + data.tracks.items[j].name;
+            console.log(trackName);
+            searchOutput.push(trackName);
+            if (data.tracks.items[j].preview_url) {
+                var preview = "     Preview: " + data.tracks.items[j].preview_url;
+                console.log(preview);
+                searchOutput.push(preview);
+            } else {
+                var preview = "     Preview: unavailable";
+                console.log(preview);
+                searchOutput.push(preview);
+            }
+            var albulmTitle = "     Album Title: " + data.tracks.items[j].album.name;
+            console.log(albulmTitle);
+            searchOutput.push(albulmTitle)
         }
-        console.log("     Album Title: " + data.tracks.items[j].album.name);
-        }
+        fileMaker();
     })
 }
 
@@ -105,14 +129,11 @@ function movieCheck(title) {
     axios
         .get("http://www.omdbapi.com/?apikey=trilogy&t=" + title)
         .then(function (movieInfo) {
-            console.log("Title: " + movieInfo.data.Title);
-            console.log("     Year Released: " + movieInfo.data.Year);
-            console.log("     IMDB Rating: " + movieInfo.data.imdbRating);
-            console.log("     Rotten Tomatoes Rating: " + movieInfo.data.Ratings[1].Value);
-            console.log("     Producing Country or Countries: " + movieInfo.data.Country);
-            console.log("     Language: " + movieInfo.data.Language);
-            console.log("     Plot: " + movieInfo.data.Plot);
-            console.log("     Actors: " + movieInfo.data.Actors);
+            searchOutput = [];
+            var movieData = `Title: ${movieInfo.data.Title}\n     Year Released: ${movieInfo.data.Year}\n     IMDB Rating: ${movieInfo.data.imdbRating}\n     Rotten Tomatoes Rating: ${movieInfo.data.Ratings[1].Value}\n     Producing Country or Countries: ${movieInfo.data.Country}\n     Language: ${movieInfo.data.Language}\n     Plot: ${movieInfo.data.Plot}\n     Actors: ${movieInfo.data.Actors}`;
+            console.log(movieData);
+            searchOutput.push(movieData);
+            fileMaker();
         })
         .catch(function(error) {
             if (error.response) {
@@ -143,4 +164,17 @@ function weirdStuff() {
         input = splitText[1];
         theSwitch();
     })
+}
+
+function fileMaker() {
+    for (var k = 0; k < searchOutput.length; k++)
+    fs.appendFileSync("log.txt", searchOutput[k] + "\n", function(err) {
+
+        // If an error was experienced we will log it.
+        if (err) {
+          console.log(err);
+        }
+      
+      });
+      
 }
