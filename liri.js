@@ -1,3 +1,4 @@
+// To start, we put in several references to several packages we need to make this program run.
 require("dotenv").config();
 var keys = require("./keys.js");
 var axios = require("axios");
@@ -5,17 +6,23 @@ var moment = require("moment");
 var Spotify = require("node-spotify-api");
 var fs = require("fs");
 
+//Here we point Spotify to keys.js, which in turn points to the .env file where our key and secret are actually stored.
 var spotify = new Spotify(keys.spotify);
 
+// Here we get the user's inputs and save them as variables to use later.
 var command = process.argv[2];
 var input;
+
+// Had to include this if else statement to make setting a default value for spotify-this-song work. Without it, we get an empty string rather than null.
 if(process.argv.slice(3).join(" ")) {
     input = process.argv.slice(3).join(" ");
 } else {
     input = null;
 }
+// This is the variable we will append to log.txt
 var searchOutput = [];
 
+// 
 theSwitch();
 function theSwitch() {
     switch (command) {
