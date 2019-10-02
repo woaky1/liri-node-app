@@ -67,7 +67,7 @@ function concertCheck(artist){
             } else {
                 console.log("That artist or band is not on tour at this time.");
             };
-            console.log(searchOutput);
+            // console.log(searchOutput);
             fileMaker();
         })
 
@@ -98,19 +98,30 @@ function spotifyCheck(song) {
         if (err) {
           return console.log('Error occurred: ' + err);
         }
-       
-      for (var j = 0; j < data.tracks.items.length; j++) {
-        for (var artistsIndex = 0; artistsIndex < data.tracks.items[j].artists.length; artistsIndex++) {
-                console.log("Artist(s): " + data.tracks.items[j].artists[artistsIndex].name);
-            };
-        console.log("     Track Name: " + data.tracks.items[j].name);
-        if (data.tracks.items[j].preview_url) {
-            console.log("     Preview: " + data.tracks.items[j].preview_url);
-        } else {
-            console.log("     Preview: unavailable");
+        searchOutput = [];
+        for (var j = 0; j < data.tracks.items.length; j++) {
+            for (var artistsIndex = 0; artistsIndex < data.tracks.items[j].artists.length; artistsIndex++) {
+                var header = "Artist(s): " + data.tracks.items[j].artists[artistsIndex].name;   
+                console.log(header);
+                searchOutput.push(header);
+                };
+            var trackName = "     Track Name: " + data.tracks.items[j].name;
+            console.log(trackName);
+            searchOutput.push(trackName);
+            if (data.tracks.items[j].preview_url) {
+                var preview = "     Preview: " + data.tracks.items[j].preview_url;
+                console.log(preview);
+                searchOutput.push(preview);
+            } else {
+                var preview = "     Preview: unavailable";
+                console.log(preview);
+                searchOutput.push(preview);
+            }
+            var albulmTitle = "     Album Title: " + data.tracks.items[j].album.name;
+            console.log(albulmTitle);
+            searchOutput.push(albulmTitle)
         }
-        console.log("     Album Title: " + data.tracks.items[j].album.name);
-        }
+        fileMaker();
     })
 }
 
@@ -118,14 +129,11 @@ function movieCheck(title) {
     axios
         .get("http://www.omdbapi.com/?apikey=trilogy&t=" + title)
         .then(function (movieInfo) {
-            console.log("Title: " + movieInfo.data.Title);
-            console.log("     Year Released: " + movieInfo.data.Year);
-            console.log("     IMDB Rating: " + movieInfo.data.imdbRating);
-            console.log("     Rotten Tomatoes Rating: " + movieInfo.data.Ratings[1].Value);
-            console.log("     Producing Country or Countries: " + movieInfo.data.Country);
-            console.log("     Language: " + movieInfo.data.Language);
-            console.log("     Plot: " + movieInfo.data.Plot);
-            console.log("     Actors: " + movieInfo.data.Actors);
+            searchOutput = [];
+            var movieData = `Title: ${movieInfo.data.Title}\n     Year Released: ${movieInfo.data.Year}\n     IMDB Rating: ${movieInfo.data.imdbRating}\n     Rotten Tomatoes Rating: ${movieInfo.data.Ratings[1].Value}\n     Producing Country or Countries: ${movieInfo.data.Country}\n     Language: ${movieInfo.data.Language}\n     Plot: ${movieInfo.data.Plot}\n     Actors: ${movieInfo.data.Actors}`;
+            console.log(movieData);
+            searchOutput.push(movieData);
+            fileMaker();
         })
         .catch(function(error) {
             if (error.response) {
@@ -160,7 +168,7 @@ function weirdStuff() {
 
 function fileMaker() {
     for (var k = 0; k < searchOutput.length; k++)
-    fs.appendFileSync("results.txt", searchOutput[k] + "\n", function(err) {
+    fs.appendFileSync("log.txt", searchOutput[k] + "\n", function(err) {
 
         // If an error was experienced we will log it.
         if (err) {
