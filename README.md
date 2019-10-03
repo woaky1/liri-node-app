@@ -50,7 +50,7 @@ This is a special mystery command that will run a search based on the contents o
 
 4. No matter which command you pick, the results of your search will get saved to a text file, log.txt, so you can always go back and refer to the infomation later.
 
-  -[Video of seach results being saved to log.txt](https://drive.google.com/file/d/1jXgf72H6cepdZD5hIForax3GBf_kZdJ9/view?usp=sharing)
+[Video of seach results being saved to log.txt](https://drive.google.com/file/d/1jXgf72H6cepdZD5hIForax3GBf_kZdJ9/view?usp=sharing)
 
 ## Tech used by Liri
 - dotenv: This node package allows you to access values from a .env file that you don't store on GIT. So you can keep your spotify key and secret, you know, secret.
