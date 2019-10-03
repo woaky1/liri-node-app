@@ -31,17 +31,26 @@ After the file name, you'll need to give Liri a command, then what you'd like th
 - `concert-this`:
 This command will use the bandsintown.com API via the Axios package to search for the artist or band you provide. It will then show you a list of upcoming show dates and locations, if that artist is on tour.
 
-<iframe src="https://drive.google.com/file/d/1LNtfhm9AUy542r6wrmx7Zrzo7s0Do0pE/preview" width="640" height="480"></iframe>
+  -[Video of concert-this in action](https://drive.google.com/file/d/1LNtfhm9AUy542r6wrmx7Zrzo7s0Do0pE/view?usp=sharing)
 
 - `spotify-this-song`:
 This command uses the node-spotify-api package to seach to the song you provide. It will show you a list of songs that match that track name or are similar, and even give you a link to a preview if it's available.
+
+  -[Video of spotify-this-song in action](https://drive.google.com/file/d/1pO67nlTRRtbEhhT_4Ig52zQK0QMxYO_O/view?usp=sharing)
+
 - `movie-this`:
 This command will use the omdb API via the Axios package to search for information about the movie title you provide.
+
+  -[Video of movie-this in action](https://drive.google.com/file/d/1fgPJndq-ZIJa4gEExPAXaed4qxCiFkwt/view?usp=sharing)
 
 - `do-what-it-says`:
 This is a special mystery command that will run a search based on the contents of random.txt. In this case, it looks up "Power of Love" by Huey Lewis and the News, because Huey Lewis and the News.
 
+  -[Video of do-what-it-says in action](https://drive.google.com/file/d/142uAuYAbMtV8nb5z9RBXlJNjIoL0yCpv/view?usp=sharing)
+
 4. No matter which command you pick, the results of your search will get saved to a text file, log.txt, so you can always go back and refer to the infomation later.
+
+  -[Video of seach results being saved to log.txt](https://drive.google.com/file/d/1jXgf72H6cepdZD5hIForax3GBf_kZdJ9/view?usp=sharing)
 
 ## Tech used by Liri
 - dotenv: This node package allows you to access values from a .env file that you don't store on GIT. So you can keep your spotify key and secret, you know, secret.
