@@ -61,12 +61,13 @@ function concertCheck(artist){
                     var venueName = response.data[i].venue.name
                     console.log(venueName);
                     searchOutput.push(venueName);
+                    var location;
                     if (response.data[i].venue.region) {
-                        var location = "     " + response.data[i].venue.city + ", " + response.data[i].venue.region + ", " + response.data[i].venue.country
+                        location = "     " + response.data[i].venue.city + ", " + response.data[i].venue.region + ", " + response.data[i].venue.country
                         console.log(location);
                         searchOutput.push(location);
                     } else {
-                        var location = "     " + response.data[i].venue.city + ", " + response.data[i].venue.country
+                        location = "     " + response.data[i].venue.city + ", " + response.data[i].venue.country
                         console.log(location);
                         searchOutput.push(location);
                     };
@@ -122,12 +123,13 @@ function spotifyCheck(song) {
             var trackName = "     Track Name: " + data.tracks.items[j].name;
             console.log(trackName);
             searchOutput.push(trackName);
+            var preview;
             if (data.tracks.items[j].preview_url) {
-                var preview = "     Preview: " + data.tracks.items[j].preview_url;
+                preview = "     Preview: " + data.tracks.items[j].preview_url;
                 console.log(preview);
                 searchOutput.push(preview);
             } else {
-                var preview = "     Preview: unavailable";
+                preview = "     Preview: unavailable";
                 console.log(preview);
                 searchOutput.push(preview);
             }
