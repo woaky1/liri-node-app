@@ -53,7 +53,7 @@ This is a special mystery command that will run a search based on the contents o
 [Video of seach results being saved to log.txt](https://drive.google.com/file/d/1jXgf72H6cepdZD5hIForax3GBf_kZdJ9/view?usp=sharing)
 
 ## Tech used by Liri
-- dotenv: This node package allows you to access values from a .env file that you don't store on GIT. So you can keep your spotify key and secret, you know, secret.
+- dotenv: This node package allows you to access values from a .env file that you don't store on GitHub. So you can keep your spotify key and secret, you know, secret.
 - axios: This node package is how we make API calls to omdb and bandsintown.
 - Moment.js: We use this node package to translate the concert date date we get from bandsintown into something a little easier for users to read.
 - node-spotify-api: This package is what we use to make API calls to spotify.
