@@ -21,7 +21,7 @@ The bulk of the app lives in the liri.js file. We also have a text file, random.
     SPOTIFY_ID=your-spotify-id
     SPOTIFY_SECRET=your-spotify-secret
 ```
-Of course, you'll need to sub in your own spotify id and secrect into that code!
+Of course, you'll need to sub in your own spotify id and secret into that code!
 
 3. It's time to run Liri! To do that, go to your terminal/bash window and type:
 `node liri.js`
